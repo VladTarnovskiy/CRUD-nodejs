@@ -5,7 +5,6 @@ dotenv.config();
 
 const PORT = process.env.PORT || 3000;
 const server = createServer((req, res) => {
-  console.log(req.url);
   try {
     switch (req.method) {
       case "GET":
