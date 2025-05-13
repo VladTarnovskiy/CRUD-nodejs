@@ -3,7 +3,7 @@ import { ErrorMessage, IUser } from "../model";
 
 export const parseResponse = (
   statusCode: number,
-  data: IUser[] | ErrorMessage,
+  data: IUser[] | IUser | ErrorMessage,
   res: ServerResponse<IncomingMessage>
 ) => {
   res.writeHead(statusCode, {

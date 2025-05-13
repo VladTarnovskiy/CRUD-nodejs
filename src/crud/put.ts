@@ -1,5 +1,11 @@
 import { IncomingMessage, ServerResponse } from "node:http";
-import { API_URL, existUserError, dataError, requestError } from "../constant";
+import {
+  API_URL,
+  existUserError,
+  dataError,
+  requestError,
+  idError,
+} from "../constant";
 import { getCurrentData, updateUsers } from "../data";
 import {
   getUrlIdParam,
@@ -8,6 +14,7 @@ import {
   parseResponse,
 } from "../utils";
 import { IUser } from "../model";
+import { validate } from "uuid";
 
 export const putRequest = async (
   req: IncomingMessage,
@@ -21,7 +28,9 @@ export const putRequest = async (
       (user: IUser) => user.id === idParam
     );
     const userData: any = await parseData(req);
-    if (isReqDataValid(userData)) {
+    if (!validate(idParam)) {
+      parseResponse(400, idError, res);
+    } else if (isReqDataValid(userData)) {
       if (filteredData.length > 0) {
         const user = { ...userData, id: idParam };
         updateUsers(user);
